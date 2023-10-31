@@ -44,7 +44,7 @@ export interface FundraiserView extends FundraiserBlockchain {
 export interface CommentView extends BlockchainComment {
   timestamp: bigint; // Block timestamp
   
-  textContent?: string;
+  contentTextBody?: string;
   contentFileIDs?: string[];
 }
 

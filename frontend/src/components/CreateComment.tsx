@@ -70,7 +70,7 @@ export function CreateComment({ parentFundraiser: fundraiser, onCreated }: { par
           sender: address as `0x${string}`,
           content: JSON.stringify(commentContent),
           timestamp: BigInt(Math.round(date.getTime() / 1000).toString()),
-          textContent: commentText,
+          contentTextBody: commentText,
           fundraiserId: fundraiser.id
         };
 

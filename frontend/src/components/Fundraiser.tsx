@@ -131,12 +131,12 @@ export function Fundraiser() {
               ...r.args as unknown as CommentView,
               txHash: r.transactionHash
             };
-            comment.textContent = JSON.parse(r.args.content!).t;
+            comment.contentTextBody = JSON.parse(r.args.content!).t;
             comment.contentFileIDs = JSON.parse(r.args.content!).f;
 
-            const response = await fetch('https://gateway.irys.xyz/' + comment.textContent);
+            const response = await fetch('https://gateway.irys.xyz/' + comment.contentTextBody);
             const content = await response.text();
-            comment.textContent = content;
+            comment.contentTextBody = content;
 
             return comment;
           }));
@@ -349,7 +349,7 @@ export function Fundraiser() {
                 </div>
               </div>
               <div className="chat-bubble text-start">
-                <p>{comment.textContent}</p>
+                <p>{comment.contentTextBody}</p>
                 {comment.contentFileIDs && comment.contentFileIDs.map((fileId, index) => (
                   <img key={index} src={Settings.IRYS_URL + fileId} alt="" />
                 ))}

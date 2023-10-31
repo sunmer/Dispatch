@@ -67,16 +67,17 @@ export function CreateFundraiser() {
 
       const txHash = await walletClient.writeContract(request);
       if (txHash) {
-
         const fundraiserUnprocessed: FundraiserView = {
           id: -1n,
           sender: address as `0x${string}`,
-          content: JSON.stringify(fundraiserContent.t),
+          content: JSON.stringify(fundraiserContent),
           amount: 0n,
           goalAmount: parseEther(fundraiserGoalAmount),
           deadline: futureTimestamp,
           timestamp: BigInt(Math.round(date.getTime() / 1000).toString()),
           txHash: txHash,
+          contentTextTitle: fundraiserTextTitle,
+          contentTextBody: fundraiserTextBody,
           contentFileIDs: fundraiserContent.f
         };
 
