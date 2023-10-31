@@ -247,7 +247,7 @@ export function Fundraiser() {
     return (
       <div>
         <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-5">
-          <h1 className="text-5xl leading-tight max-w-3xl font-bold tracking-tight pb-2 mt-6 mx-auto">
+          <h1 className="text-3xl text-center leading-tight max-w-3xl font-bold tracking-tight pb-2 mt-6 mx-auto">
             {fundraiser.contentTextTitle}
           </h1>
           <div className="card bg-[#1d1d1f] shadow-lg w-full mx-2.5 md:max-w-[620px] md:mx-auto">
