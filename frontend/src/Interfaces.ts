@@ -45,7 +45,7 @@ export interface CommentView extends BlockchainComment {
   timestamp: bigint; // Block timestamp
   
   textContent?: string;
-  filesContent?: string[];
+  contentFileIDs?: string[];
 }
 
 
