@@ -36,7 +36,7 @@ async function handler(
 
       const irys = await getIrys();
 
-      console.log("Attempting to upload fundraiser: " + request.body.fundraiserTextTitle);
+      console.log("Attempting to upload fundraiser: " + request.body.contextTextTitle);
 
       const contentText = {
         tt: request.body.contextTextTitle,
