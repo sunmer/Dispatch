@@ -1,0 +1,721 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x31d7761503eBb249f0302af84d90Da6Bee789De2",
+    "txHash": "0x519600a427dd704f4406df74800c3773528bc0d14d8ac314bef9675453598f55"
+  },
+  "proxies": [
+    {
+      "address": "0x93C987Dd33025e384A8aB3a5c276248D9d0efC38",
+      "txHash": "0xbda5caf88fd31b50ed612a402e7c0885bf71539d33000a491d51c096995be8e5",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x3CE4c2B320224b5D6b9CB1FB7dD52590f299Fc8B",
+      "txHash": "0x2ec85c11d827046bc5e138261e52cb9801abc08b3c990723cb449cc25fab63df",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x226eCC705CEeBF836E0a11e115A5C2693E906b53",
+      "txHash": "0xf2c21947f0a98e2e34cdff9b528caf1709b04ae254c6aee324dc4d7a1e73b6b5",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0CfC6bfEEB53D0ECc9eA1cd8C89556cB77a635B1",
+      "txHash": "0x9a79fca00cc193c0c977a16590bd19c8259a02f53dd6f1df64740733a24a9226",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x8613b8029Beb79DE51Fe46B3D64ce33984C9953D",
+      "txHash": "0x53e4c79a1b5bd286c31e3c00ccc12fac00c67937b9fb79e849654170987e1363",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x6B92BbA8818d212fD6BAdF3A978De534E90CaB30",
+      "txHash": "0x81174a961cd1ad518f1fbdb8673eb90205f97d7aee3591d555fea449d9bb83be",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xaeF54B91763bd0921168fC57e785497f173A0e6f",
+      "txHash": "0x01ffbfd60eee5ba854cea9d08319d64ff1dbeef3f39e57ad73484483af0bfbb2",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xD57bf077b8Fc528d1562231A112eF96C1740AE8f",
+      "txHash": "0x752fccca5b880acaf35f88855eb7f4613d6a3edd07f9570eb32bad35ce07dd2d",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2CE03AbB72392Cd79B37dC57182f8cee4b3023e1",
+      "txHash": "0xb8fa95bb5246c94ccc50d3a7162a97cef32018c2a82aad1a379a5df60fa8bfad",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "f94ede31b90d75d951bdd483731f4dd5776189ec86410be46da774fde16c94c5": {
+      "address": "0x93d0a5136308d75E0C4aCd12fB7aaaf5136a14B7",
+      "txHash": "0x6530cf341a679ce40c66e30fb1cfd721f1daa1333979e442ada7f7be175623b6",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "nextDispatchId",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:17"
+          },
+          {
+            "label": "dispatchesByAddress",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:51"
+          },
+          {
+            "label": "dispatchById",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_struct(Dispatch)514_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:52"
+          },
+          {
+            "label": "repliesByDispatchId",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:53"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Dispatch)514_storage)dyn_storage": {
+            "label": "struct Dispatcher.Dispatch[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(address => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Dispatch)514_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Dispatch)514_storage": {
+            "label": "struct Dispatcher.Dispatch",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sender",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "content",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pledge",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "parentId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "b5487e35daa13da099eed2bb60750a99c5811cafae84db9d8e26e1e7ff82d00c": {
+      "address": "0x823402E6411E905B418c17Bf65A98561a90CEc5A",
+      "txHash": "0x25d0896b060dce590c720f4db4e0d780ac4c1bf80bf393142167f1bc89933fdd",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "nextDispatchId",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "DispatcherV2",
+            "src": "contracts/DispatcherV2.sol:17"
+          },
+          {
+            "label": "dispatchesByAddress",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "DispatcherV2",
+            "src": "contracts/DispatcherV2.sol:55"
+          },
+          {
+            "label": "dispatchById",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_struct(Dispatch)514_storage)",
+            "contract": "DispatcherV2",
+            "src": "contracts/DispatcherV2.sol:56"
+          },
+          {
+            "label": "repliesByDispatchId",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "DispatcherV2",
+            "src": "contracts/DispatcherV2.sol:57"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Dispatch)514_storage)dyn_storage": {
+            "label": "struct DispatcherV2.Dispatch[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(address => struct DispatcherV2.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(uint256 => struct DispatcherV2.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Dispatch)514_storage)": {
+            "label": "mapping(uint256 => struct DispatcherV2.Dispatch)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Dispatch)514_storage": {
+            "label": "struct DispatcherV2.Dispatch",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sender",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "content",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pledge",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "parentId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "c11cd67413186e71e23fb40e56565c727d5f816f4d2c3cbb772c3808ca4d99c9": {
+      "address": "0xd3De61F8b1d61b9e5eab6c8ccE733AC5A2E6b152",
+      "txHash": "0x7a45a743ddcd2c6b7e500173a0c67fa5892807725de6b56626340c54109f74a3",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "nextDispatchId",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:15"
+          },
+          {
+            "label": "dispatchesByAddress",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:43"
+          },
+          {
+            "label": "dispatchById",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_struct(Dispatch)514_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:44"
+          },
+          {
+            "label": "repliesByDispatchId",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:45"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Dispatch)514_storage)dyn_storage": {
+            "label": "struct Dispatcher.Dispatch[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(address => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Dispatch)514_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Dispatch)514_storage": {
+            "label": "struct Dispatcher.Dispatch",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sender",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "content",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pledge",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "parentId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "a8566981a78561f224f1dd4da3397baf46dfa8310f5b98726025aeb18fd7d9a6": {
+      "address": "0xA43f8142695916BF8348c310BAABc75572E2213B",
+      "txHash": "0x477dde407f86154d407fa8200d93eed7ce71e011fcb96fb021a533421ff80866",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "nextDispatchId",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:15"
+          },
+          {
+            "label": "dispatchesByAddress",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:42"
+          },
+          {
+            "label": "dispatchById",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_struct(Dispatch)514_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:43"
+          },
+          {
+            "label": "repliesByDispatchId",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:44"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Dispatch)514_storage)dyn_storage": {
+            "label": "struct Dispatcher.Dispatch[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(address => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Dispatch)514_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Dispatch)514_storage": {
+            "label": "struct Dispatcher.Dispatch",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sender",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "content",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pledge",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "parentId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    },
+    "f14ab0142377506cf35c6bb5ad685b0ff6ab4070498e1a54a88a6b5652ec7c85": {
+      "address": "0x53FaaaFF03cEeC2577f35a39231d49247C783FcC",
+      "txHash": "0xcc4075610f92b50489cf43014869dcceef355cde8f43c3ae1613eb01dd3c9aef",
+      "layout": {
+        "solcVersion": "0.8.19",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
+          },
+          {
+            "label": "nextDispatchId",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:15"
+          },
+          {
+            "label": "dispatchesByAddress",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:42"
+          },
+          {
+            "label": "dispatchById",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_struct(Dispatch)514_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:43"
+          },
+          {
+            "label": "repliesByDispatchId",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)",
+            "contract": "Dispatcher",
+            "src": "contracts/Dispatcher.sol:44"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Dispatch)514_storage)dyn_storage": {
+            "label": "struct Dispatcher.Dispatch[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(address => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_array(t_struct(Dispatch)514_storage)dyn_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_struct(Dispatch)514_storage)": {
+            "label": "mapping(uint256 => struct Dispatcher.Dispatch)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Dispatch)514_storage": {
+            "label": "struct Dispatcher.Dispatch",
+            "members": [
+              {
+                "label": "id",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sender",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "content",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "pledge",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "parentId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "4"
+              }
+            ],
+            "numberOfBytes": "160"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        },
+        "namespaces": {}
+      }
+    }
+  }
+}
