@@ -1,8 +1,7 @@
 import { default as Dispatcher } from '../abi/contracts/Dispatcher.sol/Dispatcher.json';
 import { useEffect, useState } from 'react';
-import { formatDate } from "../App"
 import {
-  useAccount, useContractEvent, useContractRead, useContractWrite, usePrepareContractWrite
+  useAccount, useContractRead, useContractWrite, usePrepareContractWrite
 } from 'wagmi'
 import { getPublicClient } from '@wagmi/core'
 import { FundraiserView, EventFundraiserCreated, CommentView, EventCommentCreated, FundraiserBlockchain, EventContributionCreated } from '../Interfaces';
