@@ -33,8 +33,8 @@ export function CreateComment({ parentFundraiser: fundraiser, onCreated }: { par
     setIsCreatingComment(true);
 
     const formData = new FormData();
-    formData.append('commentText', commentText);
-    commentFiles.forEach(file => formData.append('commentFiles', file));
+    formData.append('contentTextBody', commentText);
+    commentFiles.forEach(file => formData.append('contentFiles', file));
 
     const uploadRawResponse = await fetch(Settings.API_URL + '/upload', {
       method: 'POST',
@@ -71,7 +71,6 @@ export function CreateComment({ parentFundraiser: fundraiser, onCreated }: { par
           content: JSON.stringify(commentContent),
           timestamp: BigInt(Math.round(date.getTime() / 1000).toString()),
           textContent: commentText,
-          filesContent: commentContent.f,
           fundraiserId: fundraiser.id
         };
 

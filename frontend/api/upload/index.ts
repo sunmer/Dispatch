@@ -22,7 +22,7 @@ const getIrys = async () => {
 }
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage }).array('fundraiserFiles');
+const upload = multer({ storage: storage }).array('contentFiles');
 
 async function handler(
   request: any,
@@ -38,12 +38,12 @@ async function handler(
 
       console.log("Attempting to upload fundraiser: " + request.body.fundraiserTextTitle);
 
-      const fundraiserText = {
-        tt: request.body.fundraiserTextTitle,
-        tb: request.body.fundraiserTextBody
+      const contentText = {
+        tt: request.body.contextTextTitle,
+        tb: request.body.contextTextBody
       }
 
-      const textReceipt = await irys.upload(JSON.stringify(fundraiserText));
+      const textReceipt = await irys.upload(JSON.stringify(contentText));
       console.log(`Text uploaded ==> https://gateway.irys.xyz/${textReceipt.id}`);
 
       let res: {

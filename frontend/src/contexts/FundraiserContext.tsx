@@ -29,11 +29,12 @@ interface FundraiserProviderProps {
 export const DEFAULT_CHAIN = polygon;
 
 export const CONTRACT_ADDRESS: { [key: number]: [string, bigint] } = {
-  [polygon.id]: ["0xfd48801A09fA17410EA1cE009a839a7a65728685", 49340464n],
+  [polygon.id]: ["0xa26dc40cbB4596D7b893e85eF939cd555EC95403", 49383863n],
   [base.id]: ["0xeE87fFAA792b36AEe3769364a6617773d8F6C313", 0n]
 };
 
-const BLOCKS_PRODUCED_PER_24_HOURS = 43200n;
+export const BLOCKS_PRODUCED_PER_24_HOURS = 43200n;
+export const BLOCKS_PRODUCED_PER_12_HOURS = BLOCKS_PRODUCED_PER_24_HOURS / 2n;
 
 export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children, publicClient }) => {
   const { chain: connectedChain } = useNetwork();

@@ -30,9 +30,9 @@ export function CreateFundraiser() {
     setIsCreatingFundraiser(true);
 
     const formData = new FormData();
-    formData.append('fundraiserTextTitle', fundraiserTextTitle);
-    formData.append('fundraiserTextBody', fundraiserTextBody);
-    fundraiserFiles.forEach(file => formData.append('fundraiserFiles', file));
+    formData.append('contentTextTitle', fundraiserTextTitle);
+    formData.append('contentTextBody', fundraiserTextBody);
+    fundraiserFiles.forEach(file => formData.append('contentFiles', file));
 
     const uploadRawResponse = await fetch(Settings.API_URL + '/upload', {
       method: 'POST',

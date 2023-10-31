@@ -1,13 +1,13 @@
 import { default as Dispatcher } from '../abi/contracts/Dispatcher.sol/Dispatcher.json';
 import { useEffect, useState } from 'react';
 import {
-  useAccount, useContractRead, useContractWrite, usePrepareContractWrite
+  useAccount, useBlockNumber, useContractRead, useContractWrite, usePrepareContractWrite
 } from 'wagmi'
 import { getPublicClient } from '@wagmi/core'
 import { FundraiserView, EventFundraiserCreated, CommentView, EventCommentCreated, FundraiserBlockchain, EventContributionCreated } from '../Interfaces';
 import { toast } from 'react-toastify';
 import { CreateComment } from './CreateComment';
-import { CONTRACT_ADDRESS, userFundraiserContext } from '../contexts/FundraiserContext';
+import { BLOCKS_PRODUCED_PER_12_HOURS, CONTRACT_ADDRESS, userFundraiserContext } from '../contexts/FundraiserContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import Settings from '../Settings';
 import { GetCustomAvatar } from './CustomAvatar';
@@ -31,6 +31,9 @@ export function Fundraiser() {
   const [isCreatingContribution, setIsCreatingContribution] = useState(false);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
 
+  const { data: blocknumberData } = useBlockNumber({
+  })
+
   const { address } = useAccount();
 
   type BlockchainFundraiserArray = [bigint, string, string, bigint, bigint, bigint];
@@ -42,7 +45,9 @@ export function Fundraiser() {
   })
 
   useEffect(() => {
-    if (fundraiserId && fundraiserData) {
+    if (fundraiserId && fundraiserData && blocknumberData) {
+      const blockHeight24HoursAgo = blocknumberData - BLOCKS_PRODUCED_PER_12_HOURS;
+
       const fundraiserBlockchain: FundraiserBlockchain = {
         id: fundraiserData[0],
         sender: fundraiserData[1],
@@ -77,60 +82,21 @@ export function Fundraiser() {
         };
 
         const fundraiserContent = JSON.parse(fundraiserBlockchain.content);
-        const contentTextID = fundraiserContent.t
+        const contentTextID = fundraiserContent.t;
         fundraiserView.contentFileIDs = fundraiserContent.f;
 
-        fetch('https://gateway.irys.xyz/' + contentTextID)
-          .then(response => response.text())
-          .then(data => {
+        const fetchMainContent = async () => {
+          try {
+            const response = await fetch('https://gateway.irys.xyz/' + contentTextID);
+            const data = await response.text();
             const fundraiserText = JSON.parse(data);
             fundraiserView.contentTextBody = fundraiserText.tb;
             fundraiserView.contentTextTitle = fundraiserText.tt;
-            setFundraiser(fundraiserView);
-          })
-          .catch(err => {
-            console.error("Error fetching the file:", err);
-          });
-
-        const getReplies = async () => {
-          setIsLoadingComments(true);
-          const repliesData = await publicClient.getLogs({
-            address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
-            event: EventCommentCreated,
-            fromBlock: CONTRACT_ADDRESS[currentChain.id][1],
-            args: {
-              id: BigInt(fundraiserId)
-            },
-            toBlock: 'latest'
-          });
-
-          const fetchCommentContent = async (content: string) => {
-            try {
-              const response = await fetch('https://gateway.irys.xyz/' + content);
-              return response.text();
-            } catch (err) {
-              console.error("Error fetching the file for comment: ", err);
-            }
-          };
-
-          const replies = await Promise.all(repliesData.map(async r => {
-            const comment = {
-              ...r.args as unknown as CommentView,
-              txHash: r.transactionHash
-            };
-
-            comment.textContent = JSON.parse(r.args.content!).t;
-            comment.filesContent = JSON.parse(r.args.content!).f;
-
-            const content = await fetchCommentContent(comment.textContent!);
-            if (content) comment.textContent = content;
-            return comment;
-          }));
-
-          setFundraiser(prevFundraiser => ({ ...prevFundraiser, comments: replies } as FundraiserView));
-
-          setIsLoadingComments(false);
-        }
+            return fundraiserView;
+          } catch (err) {
+            console.error("Error fetching the main file:", err);
+          }
+        };
 
         const getNumberOfContributions = async () => {
           const contributionEvents = await publicClient.getLogs({
@@ -142,17 +108,62 @@ export function Fundraiser() {
               fundraiserId: BigInt(fundraiserId)
             },
           });
-
-          setNumberOfContributions(contributionEvents.length)
+          return contributionEvents.length;
         }
 
-        getNumberOfContributions();
-        getReplies();
+        const getLatestReplies = async () => {
+          const repliesData = await publicClient.getLogs({
+            address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
+            event: EventCommentCreated,
+            fromBlock: blockHeight24HoursAgo,
+            args: {
+              fundraiserId: BigInt(fundraiserId)
+            },
+            toBlock: 'latest'
+          });
+
+          console.log("repliesData")
+          console.log(repliesData)
+
+          /*
+          const response = await fetch('https://gateway.irys.xyz/' + contentTextID);
+            const data = await response.text();
+            const fundraiserText = JSON.parse(data);
+            fundraiserView.contentTextBody = fundraiserText.tb;
+            fundraiserView.contentTextTitle = fundraiserText.tt;
+            return fundraiserView;
+          */
+
+          return await Promise.all(repliesData.map(async r => {
+            const comment = {
+              ...r.args as unknown as CommentView,
+              txHash: r.transactionHash
+            };
+            comment.textContent = JSON.parse(r.args.content!).t;
+            comment.contentFileIDs = JSON.parse(r.args.content!).f;
+
+            const response = await fetch('https://gateway.irys.xyz/' + comment.textContent);
+            const content = await response.text();
+            comment.textContent = content;
+            return comment;
+          }));
+        };
+
+        const [updatedFundraiserView, contributionsCount, replies] = await Promise.all([
+          fetchMainContent(),
+          getNumberOfContributions(),
+          getLatestReplies()
+        ]);
+
+        setFundraiser(updatedFundraiserView);
+        setNumberOfContributions(contributionsCount);
+        setFundraiser(prevFundraiser => ({ ...prevFundraiser, comments: replies } as FundraiserView));
       };
 
       init();
     }
-  }, [fundraiserId]);
+  }, [fundraiserId, blocknumberData]);
+
 
   useEffect(() => {
     if (fundraiser?.comments) {
@@ -258,8 +269,8 @@ export function Fundraiser() {
               {!showContributionForm && (
                 <button className="btn btn-outline btn-sm btn-secondary"
                   onClick={() => setShowContributionForm(true)}>
-                    Contribute
-                  </button>
+                  Contribute
+                </button>
               )}
               {showContributionForm && (
                 <div className="join">
@@ -267,7 +278,7 @@ export function Fundraiser() {
                     onChange={e => setFundraiserContribution(e.target.value.replace(` ${currentChain.nativeCurrency.symbol}`, ''))} />
                   <button
                     className="btn btn-outline btn-sm btn-secondary join-item z-10"
-                    disabled={!writeCreateContribution}
+                    disabled={isCreatingContribution}
                     onClick={createContribution}>
                     Add contribution
                     {isCreatingContribution && (
@@ -277,11 +288,11 @@ export function Fundraiser() {
                 </div>
               )}
               {address === fundraiser.sender && (
-                <button 
-                  className="btn btn-outline btn-sm btn-accent" 
-                  disabled={!writeClaimFundraiserAmount} 
+                <button
+                  className="btn btn-outline btn-sm btn-accent"
+                  disabled={!writeClaimFundraiserAmount}
                   onClick={createClaimAmount}>
-                    Claim contributions
+                  Claim contributions
                 </button>
               )}
               <div
