@@ -43,7 +43,7 @@ function App() {
             </h1>
             <div className="rotating-text text-2xl leading-tight mb-[40px]">
               <div className="hidden md:block">
-                <p className="custom-font text-white">Dispatch allows content creators to fundraise for</p>
+                <p className="custom-font text-white">Dispatch allows creators to fundraise for</p>
                 <span className="font-bold">
                   <div className="inner text-left">
                     community projects<br />
