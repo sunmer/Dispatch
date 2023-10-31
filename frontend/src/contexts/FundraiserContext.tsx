@@ -29,7 +29,7 @@ interface FundraiserProviderProps {
 export const DEFAULT_CHAIN = polygon;
 
 export const CONTRACT_ADDRESS: { [key: number]: [string, bigint] } = {
-  [polygon.id]: ["0xa26dc40cbB4596D7b893e85eF939cd555EC95403", 49383863n],
+  [polygon.id]: ["0x9A65362A9Aa3423739F534EE03C5a91dbFCb1bf5", 49384656n],
   [base.id]: ["0xeE87fFAA792b36AEe3769364a6617773d8F6C313", 0n]
 };
 
