@@ -1,3 +1,4 @@
+import { default as Dispatcher } from '../abi/contracts/Dispatcher.sol/Dispatcher.json';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { base, polygon } from 'viem/chains'
 import { FundraiserView, ContributorView, PriceData, EventFundraiserCreated, EventContributionCreated } from '../Interfaces';
@@ -67,72 +68,8 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
         const priceData = await priceDataResponse.json();
         setPriceData(priceData.data);
 
-        const block = await publicClient.getBlock();
-        const blockHeight24HoursAgo = block.number - BLOCKS_PRODUCED_PER_24_HOURS;
-
-        const fundraisersData = await publicClient.getLogs({
-          address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
-          event: EventFundraiserCreated,
-          fromBlock: blockHeight24HoursAgo,
-          toBlock: 'latest'
-        });
-
-        const fundraisersMap: { [key: string]: FundraiserView } = {};
-        fundraisersData.map(r => {
-          const fundraiser: FundraiserView = {
-            id: r.args.id!,
-            sender: r.args.sender!,
-            content: r.args.content!,
-            goalAmount: r.args.goalAmount!,
-            deadline: r.args.deadline!,
-            amount: 0n,
-            timestamp: r.args.timestamp!,
-            txHash: r.transactionHash
-          };
-          
-          fundraiser.content = JSON.parse(r.args.content!).t;
-          fundraiser.contentFileIDs = JSON.parse(r.args.content!).f;
-
-          fetch('https://gateway.irys.xyz/' + fundraiser.content)
-            .then(response => response.text())
-            .then(data => {
-              const fundraiserText = JSON.parse(data);
-              
-              fundraiser.contentTextBody = fundraiserText.tb;
-              fundraiser.contentTextTitle = fundraiserText.tt;
-              fundraisersMap[fundraiser.id.toString()] = fundraiser;
-
-              return fundraiser;
-            })
-            .catch(err => {
-              console.error("Error fetching the file:", err);
-            });
-        });
-
-        const contributionsData = await publicClient.getLogs({
-          address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
-          event: EventContributionCreated,
-          fromBlock: CONTRACT_ADDRESS[currentChain.id][1],
-          toBlock: 'latest'
-        });
-
-        const groupedTippers: { [key: string]: ContributorView } = {};
-
-        for (const contribution of contributionsData) {
-          const key = contribution.args.sender!;
-          if (!groupedTippers[key]) {
-            groupedTippers[key] = {
-              sender: contribution.args.sender as `0x${string}`,
-              totalContributions: BigInt(0),
-              contributions: []
-            };
-          }
-          groupedTippers[key].totalContributions += BigInt(contribution.args.amount!);
-          groupedTippers[key].contributions.push(contribution);
-        }
-
-        setAllFundraisers(Object.values(fundraisersMap));
-        setAllContributors(Object.values(groupedTippers));
+        fetchFundraisersPast24Hours();
+        fetchAllContributors();
       }
 
       init();
@@ -143,6 +80,91 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
     setAllFundraisers(prevFundraisers => [fundraiser, ...prevFundraisers]);
   }
 
+  const fetchFundraisersPast24Hours = async () => {
+    const block = await publicClient.getBlock();
+    const blockHeight24HoursAgo = block.number - BLOCKS_PRODUCED_PER_24_HOURS;
+
+    const fundraiserCreatedEvents = await publicClient.getLogs({
+      address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
+      event: EventFundraiserCreated,
+      fromBlock: blockHeight24HoursAgo,
+      toBlock: 'latest'
+    });
+
+    type BlockchainFundraiserArray = [bigint, string, string, bigint, bigint, bigint];
+    const fundraisers: FundraiserView[] = [];
+
+    for (const fundraiserCreatedEvent of fundraiserCreatedEvents) {
+      const data: BlockchainFundraiserArray = await publicClient.readContract({
+        address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
+        abi: Dispatcher.abi,
+        functionName: 'fundraiserById',
+        args: [fundraiserCreatedEvent.args.id]
+      }) as BlockchainFundraiserArray;
+
+      const fundraiserView: FundraiserView = {
+        id: data[0],
+        sender: data[1],
+        content: JSON.parse(data[2]).t,
+        contentFileIDs: JSON.parse(data[2]).f,
+        goalAmount: data[4],
+        deadline: data[5],
+        amount: data[3],
+        timestamp: fundraiserCreatedEvent.args.timestamp!,
+        txHash: fundraiserCreatedEvent.transactionHash
+      };
+
+      fundraisers.push(fundraiserView);
+    }
+
+    const fundraisersMap: { [key: string]: FundraiserView } = {};
+
+    const fetchContentPromises = fundraisers.map(fundraiser => {
+      return fetch('https://gateway.irys.xyz/' + fundraiser.content)
+        .then(response => response.text())
+        .then(data => {
+          const fundraiserText = JSON.parse(data);
+
+          fundraiser.contentTextBody = fundraiserText.tb;
+          fundraiser.contentTextTitle = fundraiserText.tt;
+          fundraisersMap[fundraiser.id.toString()] = fundraiser;
+        })
+        .catch(err => {
+          console.error("Error fetching the file:", err);
+        });
+    });
+
+    await Promise.all(fetchContentPromises);
+
+    setAllFundraisers(Object.values(fundraisersMap));
+  };
+
+  const fetchAllContributors = async () => {
+    const contributionsData = await publicClient.getLogs({
+      address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
+      event: EventContributionCreated,
+      fromBlock: CONTRACT_ADDRESS[currentChain.id][1],
+      toBlock: 'latest'
+    });
+
+    const groupedContributions: { [key: string]: ContributorView } = {};
+
+    for (const contribution of contributionsData) {
+      const key = contribution.args.sender!;
+      if (!groupedContributions[key]) {
+        groupedContributions[key] = {
+          sender: contribution.args.sender as `0x${string}`,
+          totalContributions: BigInt(0),
+          contributions: []
+        };
+      }
+      groupedContributions[key].totalContributions += BigInt(contribution.args.amount!);
+      groupedContributions[key].contributions.push(contribution);
+    }
+
+    setAllContributors(Object.values(groupedContributions));
+  };
+
   const getUSDValue = (amount: bigint): string => {
     if (!priceData)
       throw new Error("Price data is not available yet");
@@ -152,25 +174,25 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
 
   const getSocialAvatarURL = async (publicAddress: string): Promise<OpenIDConnectUserInfo | null> => {
     if (!publicAddress)
-        return null;
+      return null;
 
-      try {
-        const response = await fetch(
-          Settings.API_URL + '/publicaddress?' + new URLSearchParams({ publicAddress: publicAddress }), 
-          { method: 'GET' }
-        );
-    
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-    
-        const data: OpenIDConnectUserInfo[] = await response.json();
+    try {
+      const response = await fetch(
+        Settings.API_URL + '/publicaddress?' + new URLSearchParams({ publicAddress: publicAddress }),
+        { method: 'GET' }
+      );
 
-        return data[0] || null;
-      } catch (error) {
-        console.error('Error:', error);
-        return null;
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+
+      const data: OpenIDConnectUserInfo[] = await response.json();
+
+      return data[0] || null;
+    } catch (error) {
+      console.error('Error:', error);
+      return null;
+    }
   }
 
   const getTotalContributionsBySender = (sender: string) => {

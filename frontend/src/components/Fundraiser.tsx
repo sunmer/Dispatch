@@ -2,10 +2,10 @@ import { default as Dispatcher } from '../abi/contracts/Dispatcher.sol/Dispatche
 import { useEffect, useState } from 'react';
 import { formatDate } from "../App"
 import {
-  useAccount, useContractRead, useContractWrite, usePrepareContractWrite
+  useAccount, useContractEvent, useContractRead, useContractWrite, usePrepareContractWrite
 } from 'wagmi'
 import { getPublicClient } from '@wagmi/core'
-import { FundraiserView, EventFundraiserCreated, CommentView, EventCommentCreated, FundraiserBlockchain } from '../Interfaces';
+import { FundraiserView, EventFundraiserCreated, CommentView, EventCommentCreated, FundraiserBlockchain, EventContributionCreated } from '../Interfaces';
 import { toast } from 'react-toastify';
 import { CreateComment } from './CreateComment';
 import { CONTRACT_ADDRESS, userFundraiserContext } from '../contexts/FundraiserContext';
@@ -27,7 +27,9 @@ export function Fundraiser() {
   const [fundraiserContribution, setFundraiserContribution] = useState<string>("0.001");
   const [fundraiser, setFundraiser] = useState<FundraiserView>();
   const [sortedComments, setSortedComments] = useState<CommentView[]>([]);
+  const [numberOfContributions, setNumberOfContributions] = useState<number>(0)
   const [showContributionForm, setShowContributionForm] = useState(false);
+  const [isCreatingContribution, setIsCreatingContribution] = useState(false);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
 
   const { address } = useAccount();
@@ -131,6 +133,21 @@ export function Fundraiser() {
           setIsLoadingComments(false);
         }
 
+        const getNumberOfContributions = async () => {
+          const contributionEvents = await publicClient.getLogs({
+            address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
+            event: EventContributionCreated,
+            fromBlock: CONTRACT_ADDRESS[currentChain.id][1],
+            toBlock: 'latest',
+            args: {
+              fundraiserId: BigInt(fundraiserId)
+            },
+          });
+
+          setNumberOfContributions(contributionEvents.length)
+        }
+
+        getNumberOfContributions();
         getReplies();
       };
 
@@ -157,13 +174,14 @@ export function Fundraiser() {
     args: [fundraiser ? fundraiser.id : -1]
   });
 
-  const { write: writeCreateContribution, status: writeCreateContributionStatus, data: writeCreateContributionData } = useContractWrite(configCreateContribution);
+  const { writeAsync: writeCreateContribution, status: writeCreateContributionStatus, data: writeCreateContributionData } = useContractWrite(configCreateContribution);
 
   let { config: configClaimAmount, error: errorClaimAmount, refetch: refetchClaimAmount } = usePrepareContractWrite({
     address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
     abi: Dispatcher.abi,
     functionName: 'claimAmount',
-    args: [fundraiser ? fundraiser.id : 0]
+    args: [fundraiser ? fundraiser.id : 0],
+    enabled: false
   });
 
   const { write: writeClaimFundraiserAmount, status: writeClaimFundraiserAmountStatus, data: writeClaimFundraiserAmountData } = useContractWrite(configClaimAmount);
@@ -179,6 +197,7 @@ export function Fundraiser() {
   }, [writeCreateContributionStatus, writeClaimFundraiserAmountStatus]);
 
   const createContribution = async () => {
+    setIsCreatingContribution(true);
     await refetchCreateContribution();
 
     if (errorCreateContribution) {
@@ -197,7 +216,8 @@ export function Fundraiser() {
       return;
     }
 
-    writeClaimFundraiserAmount?.();
+    await writeClaimFundraiserAmount?.();
+    setIsCreatingContribution(false);
   }
 
   const addComment = (newComment: CommentView) => {
@@ -233,30 +253,37 @@ export function Fundraiser() {
               ))}
             </div>
             <div className="card-actions flex justify-end items-center mt-4 p-4 bg-base-100 rounded-b-lg">
-              {fundraiser.id !== -1n && (
-                <>
-                  <div className="badge">Raised: {Number(getUSDValue(fundraiser.amount ? fundraiser.amount : 0n)).toFixed(4)}$</div>
-                  <div className="badge">Goal: {Number(getUSDValue(fundraiser.goalAmount ? fundraiser.goalAmount : 0n)).toFixed(4)}$</div>
-                  <div className="badge">Posted: {formatDate(Number(fundraiser.timestamp))}</div>
-                </>
-              )}
               {fundraiser.id === -1n && (
                 <><span className="loading loading-spinner h-6 w-6"></span>Saving...</>
               )}
               {!showContributionForm && (
                 <button className="btn btn-outline btn-sm btn-secondary"
-                  onClick={() => setShowContributionForm(true)}>Contribute</button>
+                  onClick={() => setShowContributionForm(true)}>
+                    Contribute
+                  </button>
               )}
               {showContributionForm && (
                 <div className="join">
                   <input className="input input-bordered input-sm focus:outline-none join-item max-w-[120px]" placeholder="amount" value={`${fundraiserContribution} ${currentChain.nativeCurrency.symbol}`}
                     onChange={e => setFundraiserContribution(e.target.value.replace(` ${currentChain.nativeCurrency.symbol}`, ''))} />
-                  <button className="btn btn-outline btn-sm btn-secondary join-item z-10" disabled={!writeCreateContribution}
-                    onClick={createContribution}>Add contribution</button>
+                  <button
+                    className="btn btn-outline btn-sm btn-secondary join-item z-10"
+                    disabled={!writeCreateContribution}
+                    onClick={createContribution}>
+                    Add contribution
+                    {isCreatingContribution && (
+                      <span className="text-white loading loading-spinner"></span>
+                    )}
+                  </button>
                 </div>
               )}
               {address === fundraiser.sender && (
-                <button className="btn btn-outline btn-sm btn-accent" disabled={!writeClaimFundraiserAmount} onClick={createClaimAmount}>Claim contributions</button>
+                <button 
+                  className="btn btn-outline btn-sm btn-accent" 
+                  disabled={!writeClaimFundraiserAmount} 
+                  onClick={createClaimAmount}>
+                    Claim contributions
+                </button>
               )}
               <div
                 className="chat-image avatar self-end tooltip hover cursor-pointer"
@@ -289,7 +316,7 @@ export function Fundraiser() {
             </div>
             <div className="stat">
               <div className="stat-title">Number of contributions:</div>
-              <div data-tip={`Total tips amount in $`} className="stat-value text-secondary">?</div>
+              <div data-tip={`Total tips amount in $`} className="stat-value text-secondary">{numberOfContributions}</div>
               <div className="stat-desc">
               </div>
             </div>

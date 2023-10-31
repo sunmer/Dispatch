@@ -90,6 +90,7 @@ export function AllFundraisers() {
                         <GetCustomAvatar address={fundraiser.sender} size={30} />
                       </div>
                     </div>
+
                   </div>
                 </div>
               ))}

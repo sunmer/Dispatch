@@ -102,7 +102,7 @@ function App() {
 
       <ToastContainer theme="dark" />
 
-      <div className="mt-[120px] bg-gray-900 text-white text-opacity-40 font-semibold uppercase text-xs tracking-widest bg-opacity-80 px-12 mx-[-100%]">
+      <div className="mt-[120px] bg-gray-900 text-white text-opacity-40 font-semibold uppercase text-xs tracking-widest bg-opacity-80 px-12">
         <div className="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12 text-center lg:text-left py-12">
           <div>
             <div className="font-display text-white uppercase text-sm tracking-widest mb-6">
