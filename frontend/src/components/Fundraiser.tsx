@@ -112,6 +112,7 @@ export function Fundraiser() {
         }
 
         const getLatestReplies = async () => {
+          setIsLoadingComments(true);
           const repliesData = await publicClient.getLogs({
             address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
             event: EventCommentCreated,
@@ -125,15 +126,6 @@ export function Fundraiser() {
           console.log("repliesData")
           console.log(repliesData)
 
-          /*
-          const response = await fetch('https://gateway.irys.xyz/' + contentTextID);
-            const data = await response.text();
-            const fundraiserText = JSON.parse(data);
-            fundraiserView.contentTextBody = fundraiserText.tb;
-            fundraiserView.contentTextTitle = fundraiserText.tt;
-            return fundraiserView;
-          */
-
           return await Promise.all(repliesData.map(async r => {
             const comment = {
               ...r.args as unknown as CommentView,
@@ -145,6 +137,7 @@ export function Fundraiser() {
             const response = await fetch('https://gateway.irys.xyz/' + comment.textContent);
             const content = await response.text();
             comment.textContent = content;
+
             return comment;
           }));
         };
@@ -154,6 +147,8 @@ export function Fundraiser() {
           getNumberOfContributions(),
           getLatestReplies()
         ]);
+
+        setIsLoadingComments(false);
 
         setFundraiser(updatedFundraiserView);
         setNumberOfContributions(contributionsCount);
@@ -355,8 +350,8 @@ export function Fundraiser() {
               </div>
               <div className="chat-bubble text-start">
                 <p>{comment.textContent}</p>
-                {comment.filesContent && comment.filesContent.map((fileContent, index) => (
-                  <img key={index} src={Settings.IRYS_URL + fileContent} alt="" />
+                {comment.contentFileIDs && comment.contentFileIDs.map((fileId, index) => (
+                  <img key={index} src={Settings.IRYS_URL + fileId} alt="" />
                 ))}
               </div>
               <div className="chat-footer flex flex-row mt-1">
