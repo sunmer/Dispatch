@@ -4,7 +4,7 @@ contracts/node_modules
 contracts/artifacts
 contracts/cache
 contracts/typechain-types
-#contracts/.env
+contracts/.env
 contracts/.openzeppelin/polygon.json
 .DS_Store
 .env.development.local
