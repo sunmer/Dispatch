@@ -36,11 +36,11 @@ async function handler(
 
       const irys = await getIrys();
 
-      console.log("Attempting to upload fundraiser: " + request.body.contextTextTitle);
+      console.log("Attempting to upload fundraiser: " + request.body.contentTextTitle);
 
       const contentText = {
-        tt: request.body.contextTextTitle,
-        tb: request.body.contextTextBody
+        tt: request.body.contentTextTitle,
+        tb: request.body.contentTextBody
       }
 
       const textReceipt = await irys.upload(JSON.stringify(contentText));
