@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { formatDate } from "../App"
 import { userFundraiserContext } from '../contexts/FundraiserContext';
 import { useNavigate } from 'react-router-dom';
 import { GetCustomAvatar } from './CustomAvatar';

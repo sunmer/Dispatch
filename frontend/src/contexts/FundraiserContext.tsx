@@ -1,7 +1,7 @@
 import { default as Dispatcher } from '../abi/contracts/Dispatcher.sol/Dispatcher.json';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { base, polygon } from 'viem/chains'
-import { FundraiserView, ContributorView, PriceData, EventFundraiserCreated, EventContributionCreated, FundraiserBlockchain, MULTICALL_POLYGON } from '../Interfaces';
+import { FundraiserView, ContributorView, PriceData, EventContributionCreated} from '../Interfaces';
 import { Chain, PublicClient, formatEther, getAbiItem, parseAbi } from 'viem';
 import { useAccount, useNetwork } from 'wagmi';
 import Settings from '../Settings';
