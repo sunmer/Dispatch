@@ -1,8 +1,8 @@
 import { default as Dispatcher } from '../abi/contracts/Dispatcher.sol/Dispatcher.json';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { base, polygon } from 'viem/chains'
-import { FundraiserView, ContributorView, PriceData, EventFundraiserCreated, EventContributionCreated } from '../Interfaces';
-import { Chain, PublicClient, formatEther } from 'viem';
+import { FundraiserView, ContributorView, PriceData, EventFundraiserCreated, EventContributionCreated, FundraiserBlockchain, MULTICALL_POLYGON } from '../Interfaces';
+import { Chain, PublicClient, formatEther, getAbiItem, parseAbi } from 'viem';
 import { useAccount, useNetwork } from 'wagmi';
 import Settings from '../Settings';
 import { OpenIDConnectUserInfo } from '@magic-ext/oauth';
@@ -82,37 +82,43 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   }
 
   const fetchFundraisersPast24Hours = async () => {
-    const block = await publicClient.getBlock();
-    const blockHeight24HoursAgo = block.number - BLOCKS_PRODUCED_PER_24_HOURS;
+    const fundraiserById = parseAbi([
+      'function fundraiserById(uint256) external view returns (uint256 id,address sender,string memory content,uint256 amount,uint256 goalAmount,uint256 deadline)'
+    ]);
 
-    const fundraiserCreatedEvents = await publicClient.getLogs({
+    const nextFundraiserId = await publicClient.readContract({
       address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
-      event: EventFundraiserCreated,
-      fromBlock: blockHeight24HoursAgo,
-      toBlock: 'latest'
-    });
+      abi: Dispatcher.abi,
+      functionName: 'nextFundraiserId',
+    }) as bigint;
 
-    type BlockchainFundraiserArray = [bigint, string, string, bigint, bigint, bigint];
+    let _calls = [];
+    for(let index = nextFundraiserId > 0 ? nextFundraiserId - 1n : 0n; index >= 0; index--) {
+      _calls.push({
+        address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
+        abi: fundraiserById,
+        functionName: 'fundraiserById',
+        args: [index]
+      })
+    }
+    
+    type BlockchainFundraiserArray = [bigint, string, string, bigint, bigint, bigint][];
+    const fundraisersBlockchain: BlockchainFundraiserArray = await publicClient.multicall({
+      contracts: _calls,
+      allowFailure: false,
+    }) as BlockchainFundraiserArray;
+
     const fundraisers: FundraiserView[] = [];
 
-    for (const fundraiserCreatedEvent of fundraiserCreatedEvents) {
-      const data: BlockchainFundraiserArray = await publicClient.readContract({
-        address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
-        abi: Dispatcher.abi,
-        functionName: 'fundraiserById',
-        args: [fundraiserCreatedEvent.args.id]
-      }) as BlockchainFundraiserArray;
-
+    for (const fundraiserBlockchain of fundraisersBlockchain) {
       const fundraiserView: FundraiserView = {
-        id: data[0],
-        sender: data[1],
-        content: JSON.parse(data[2]).t,
-        contentFileIDs: JSON.parse(data[2]).f,
-        goalAmount: data[4],
-        deadline: data[5],
-        amount: data[3],
-        timestamp: fundraiserCreatedEvent.args.timestamp!,
-        txHash: fundraiserCreatedEvent.transactionHash
+        id: fundraiserBlockchain[0],
+        sender: fundraiserBlockchain[1],
+        content: JSON.parse(fundraiserBlockchain[2]).t,
+        contentFileIDs: JSON.parse(fundraiserBlockchain[2]).f,
+        goalAmount: fundraiserBlockchain[4],
+        deadline: fundraiserBlockchain[5],
+        amount: fundraiserBlockchain[3],
       };
 
       fundraisers.push(fundraiserView);
@@ -137,7 +143,8 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
 
     await Promise.all(fetchContentPromises);
 
-    setAllFundraisers(Object.values(fundraisersMap));
+    const reversedFundraisers = Object.values(fundraisersMap).reverse();
+    setAllFundraisers(reversedFundraisers);
   };
 
   const fetchAllContributors = async () => {

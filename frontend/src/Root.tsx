@@ -28,7 +28,12 @@ const { chains, publicClient } = configureChains(
   [
     alchemyProvider({ apiKey: Settings.API_KEY_ALCHEMY }),
     publicProvider()
-  ]
+  ],
+  {
+    batch: {
+      multicall: true
+    }
+  }
 );
 
 export const rainbowMagicConnector = ({ chains }: any) => ({

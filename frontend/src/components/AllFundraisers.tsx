@@ -70,7 +70,6 @@ export function AllFundraisers() {
                       <>
                         <div className="badge">Raised: {Number(getUSDValue(fundraiser.amount ? fundraiser.amount : 0n)).toFixed(4)}$</div>
                         <div className="badge">Goal: {Number(getUSDValue(fundraiser.goalAmount ? fundraiser.goalAmount : 0n)).toFixed(4)}$</div>
-                        <div className="badge">Posted: {formatDate(Number(fundraiser.timestamp))}</div>
                       </>
                     )}
                     {fundraiser.id === -1n && (
