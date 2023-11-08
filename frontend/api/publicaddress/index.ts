@@ -1,13 +1,6 @@
 import { createClient } from '@vercel/postgres';
-import microCors from 'micro-cors';
 
-const cors = microCors({
-  origin: 'http://localhost:5173',
-  allowMethods: ['GET', 'POST', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'X-Requested-With', 'Accept']
-});
-
-async function handler(request: any, response: any) {
+export default async function handler(request: any, response: any) {
   const client = createClient();
   await client.connect();
 
@@ -30,6 +23,7 @@ async function handler(request: any, response: any) {
         break;
       }
       case 'GET': {
+        console.log("Vercel test")
         const result = await client.sql`SELECT userinfo FROM public_addresses where address = ${request.query.publicAddress} LIMIT 1;`;
     
         const userInfos = result.rows.map(row => row.userinfo);
@@ -47,13 +41,3 @@ async function handler(request: any, response: any) {
     await client.end();
   }
 }
-
-function wrappedHandler(req: any, res: any) {
-  if (process.env.VERCEL_ENV !== 'production') {
-    return cors(handler)(req, res);
-  } else {
-    return handler(req, res);
-  }
-}
-
-export default wrappedHandler;

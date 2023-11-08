@@ -2,13 +2,6 @@ import Irys from "@irys/sdk";
 import { UploadResponse } from "@irys/sdk/build/cjs/common/types";
 import multer from 'multer';
 import { PassThrough } from 'stream';
-import microCors from 'micro-cors';
-
-const cors = microCors({
-  origin: 'http://localhost:5173',
-  allowMethods: ['GET', 'POST', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'X-Requested-With', 'Accept']
-});
 
 
 const getIrys = async () => {
@@ -24,7 +17,7 @@ const getIrys = async () => {
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage }).array('contentFiles');
 
-async function handler(
+export default async function handler(
   request: any,
   response: any,
 ) {
@@ -70,13 +63,3 @@ async function handler(
     response.json(e);
   }
 }
-
-function wrappedHandler(req: any, res: any) {
-  if (process.env.VERCEL_ENV !== 'production') {
-    return cors(handler)(req, res);
-  } else {
-    return handler(req, res);
-  }
-}
-
-export default wrappedHandler;

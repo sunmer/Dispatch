@@ -1,6 +1,6 @@
 const SETTINGS_DEV = {
-  WEB_URL: "http://localhost:5173",
-  API_URL: "http://localhost:3000/api",
+  WEB_URL: "http://127.0.0.1:5173",
+  API_URL: "http://127.0.0.1:3000/api",
   API_KEY_MAGIC: "pk_live_3664465CE0411AAD",
   API_KEY_ALCHEMY: "SXHnBp_eYEQgf2PZvlJ5MegYtoCKpEBG",
   IRYS_URL: 'https://gateway.irys.xyz/'
