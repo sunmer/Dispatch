@@ -8,4 +8,5 @@ Get the project up and running locally by:
   * Then run `npm run dev` to get the front-end up and running
 
 ## Contracts
+
 ..
