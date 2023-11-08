@@ -3,6 +3,7 @@ import { AvatarComponentProps } from "@rainbow-me/rainbowkit/dist/components/Rai
 import { useAuth } from "../contexts/AuthContext";
 import { userFundraiserContext } from "../contexts/FundraiserContext";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 
 const names = [

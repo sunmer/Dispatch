@@ -46,6 +46,8 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   const [allContributors, setAllContributors] = useState<ContributorView[]>([]);
   const [priceData, setPriceData] = useState<PriceData | null>(null);
 
+  const { address: connectedAddress } = useAccount();
+
   useEffect(() => {
     const init = async () => {
       const determineTargetChain = () => {
@@ -181,7 +183,7 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   }
 
   const getSocialAvatarURL = async (publicAddress: string): Promise<OpenIDConnectUserInfo | null> => {
-    if (!publicAddress)
+    if (!publicAddress || !connectedAddress)
       return null;
 
     try {
