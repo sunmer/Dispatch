@@ -4,11 +4,13 @@ import { getPublicClient } from '@wagmi/core'
 import { useAccount, useWalletClient } from 'wagmi';
 import { FundraiserView, UploadResponse } from '../Interfaces';
 import { toast } from 'react-toastify';
+import DatePicker from "react-datepicker";
 import { CONTRACT_ADDRESS, userFundraiserContext } from '../contexts/FundraiserContext';
 import { FileUpload } from './FileUpload';
 import Settings from '../Settings';
 import { useNavigate } from 'react-router-dom';
 import { parseEther } from 'viem';
+import "react-datepicker/dist/react-datepicker.css";
 
 
 export function CreateFundraiser() {
@@ -21,6 +23,7 @@ export function CreateFundraiser() {
   const { data: walletClient } = useWalletClient();
   const [fundraiserTextTitle, setFundraiserTextTitle] = useState('');
   const [fundraiserTextBody, setFundraiserTextBody] = useState('');
+  const [fundraiserDeadline, setFundraiserDeadline] = useState(new Date());
   const [fundraiserGoalAmount, setFundraiserGoalAmount] = useState("0.0001");
   const [fundraiserFiles, setFundraiserFiles] = useState<File[]>([]);
   const [isCreatingFundraiser, setIsCreatingFundraiser] = useState(false);
@@ -93,10 +96,13 @@ export function CreateFundraiser() {
   return (
     <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-5">
       <div className="card w-1/2 bg-[#1d1d1f] shadow-lg p-4 hover cursor-pointer w-full mx-2.5 md:max-w-[620px] md:mx-auto">
+        <h2 className="font-display text-2xl md:text-3xl mb-4">
+          Create Your Fundraiser
+        </h2>
+        <p className="block mb-4">
+          Create your fundraiser here. The more descriptive you are the bigger the chances that you'll successfully raise funds.
+        </p>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fundraiserTitle">
-            Title
-          </label>
           <input
             id="fundraiserTitle"
             className="input input-bordered w-full text-lg focus:outline-none"
@@ -106,15 +112,27 @@ export function CreateFundraiser() {
         </div>
         <div className="mb-4">
           <textarea
-            placeholder="Fundraiser description..."
+            id="fundraiserDescription"
+            placeholder="Fundraiser description"
             value={fundraiserTextBody}
             onChange={(e) => setFundraiserTextBody(e.target.value)}
-            className="textarea input-bordered w-full text-lg min-h-[100px]"
+            className="textarea input-bordered w-full text-lg min-h-[80px]"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Fundraiser deadline
+          </label>
+          <DatePicker 
+            placeholderText={'Fundraiser deadline'}
+            selected={fundraiserDeadline} 
+            onChange={(date: any) => setFundraiserDeadline(date)} 
+            className='input input-bordered w-full text-lg focus:outline-none'
           />
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="goalAmount">
-            Goal amount
+            Fundraiser goal amount
           </label>
           <input
             id="goalAmount"
