@@ -101,7 +101,6 @@ function App() {
           <Route path="/fundraiser/:fundraiserId" element={<Fundraiser />} />
         </Routes>
 
-        <ToastContainer theme="dark" />
       </div>
 
       <div className="mt-[120px] bg-gray-900 text-white text-opacity-40 font-semibold uppercase text-xs tracking-widest bg-opacity-80 px-12">

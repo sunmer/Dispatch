@@ -292,7 +292,7 @@ export function Fundraiser() {
                 </button>
               )}
               <div
-                className="chat-image avatar self-end tooltip hover cursor-pointer"
+                className="chat-image avatar self-end tooltip tooltip-left hover cursor-pointer"
                 data-tip={`This user has tipped $${Number(getUSDValue(getTotalContributionsBySender(fundraiser.sender))).toFixed(4)} in total`}
                 onClick={(event) => {
                   event.stopPropagation();
@@ -341,7 +341,7 @@ export function Fundraiser() {
           {!isLoadingComments && sortedComments.map((comment, index) => (
             <div key={index} className="chat chat-start w-full mx-2.5 md:max-w-[620px] md:mx-auto">
               <div
-                className="chat-image avatar self-end tooltip hover cursor-pointer"
+                className="chat-image avatar self-end tooltip tooltip-left hover cursor-pointer"
                 data-tip={`This user has tipped $${Number(getUSDValue(getTotalContributionsBySender(comment.sender))).toFixed(4)} in total`}
                 onClick={(event) => {
                   event.stopPropagation();

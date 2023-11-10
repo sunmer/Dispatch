@@ -75,7 +75,7 @@ export function AllFundraisers() {
                       <><span className="loading loading-spinner h-6 w-6"></span>Saving...</>
                     )}
                     <div
-                      className="chat-image avatar self-end tooltip hover cursor-pointer"
+                      className="chat-image avatar self-end tooltip tooltip-left hover cursor-pointer"
                       data-tip={`This user has contributed $${Number(getUSDValue((allContributors.find(contributor => contributor.sender === fundraiser.sender) || {}).totalContributions || 0n)).toFixed(4)} in total`}
                       onClick={(event) => {
                         event.stopPropagation();
@@ -88,7 +88,6 @@ export function AllFundraisers() {
                         <GetCustomAvatar address={fundraiser.sender} size={30} />
                       </div>
                     </div>
-
                   </div>
                 </div>
               ))}
