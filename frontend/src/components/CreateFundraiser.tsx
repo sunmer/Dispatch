@@ -56,16 +56,13 @@ export function CreateFundraiser() {
     }
 
     if (walletClient) {
-      const date = new Date();
-      const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
-      const futureDate = new Date(date.getTime() + oneWeekInMilliseconds);
-      const futureTimestamp = BigInt(Math.round(futureDate.getTime() / 1000));
+      const deadline = BigInt(Math.round(fundraiserDeadline.getTime() / 1000));
 
       const { request } = await publicClient.simulateContract({
         address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
         abi: Dispatcher.abi,
         functionName: 'createFundraiser',
-        args: [JSON.stringify(fundraiserContent), parseEther(fundraiserGoalAmount), futureTimestamp]
+        args: [JSON.stringify(fundraiserContent), parseEther(fundraiserGoalAmount), deadline]
       });
 
       const txHash = await walletClient.writeContract(request);
@@ -76,8 +73,8 @@ export function CreateFundraiser() {
           content: JSON.stringify(fundraiserContent),
           amount: 0n,
           goalAmount: parseEther(fundraiserGoalAmount),
-          deadline: futureTimestamp,
-          timestamp: BigInt(Math.round(date.getTime() / 1000).toString()),
+          deadline: deadline,
+          timestamp: BigInt(Math.round(new Date().getTime() / 1000).toString()),
           txHash: txHash,
           contentTextTitle: fundraiserTextTitle,
           contentTextBody: fundraiserTextBody,
@@ -95,8 +92,8 @@ export function CreateFundraiser() {
 
   return (
     <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-5">
-      <div className="card w-1/2 bg-[#1d1d1f] shadow-lg p-4 hover cursor-pointer w-full mx-2.5 md:max-w-[620px] md:mx-auto">
-        <h2 className="font-display text-2xl md:text-3xl mb-4">
+      <div className="card w-1/2 bg-[#1d1d1f] shadow-lg p-4 w-full mx-2.5 md:max-w-[620px] md:mx-auto">
+        <h2 className="font-display text-2xl md:text-3xl mt-2 mb-4">
           Create Your Fundraiser
         </h2>
         <p className="block mb-4">

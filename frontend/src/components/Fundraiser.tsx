@@ -13,6 +13,7 @@ import Settings from '../Settings';
 import { GetCustomAvatar } from './CustomAvatar';
 import AvatarFlame from '../assets/avatar-flame.svg';
 import { parseEther } from 'viem';
+import { formatDate } from '../App';
 
 
 export function Fundraiser() {
@@ -309,19 +310,24 @@ export function Fundraiser() {
           <div className="stats card shadow w-full md:max-w-[620px] md:mx-auto">
             <div className="stat">
               <div className="stat-title">Raised</div>
-              <div className="stat-value text-primary">
-                {Number(getUSDValue(fundraiser.amount ? fundraiser.amount : 0n)).toFixed(4)}$
+              <div className="stat-value text-[1.6rem] text-secondary">
+                {Number(getUSDValue(fundraiser.amount ? fundraiser.amount : 0n)).toFixed(2)}$
               </div>
               <div className="stat-desc"></div>
             </div>
             <div className="stat">
               <div className="stat-title">Goal</div>
-              <div className="stat-value text-primary">{Number(getUSDValue(fundraiser.goalAmount ? fundraiser.goalAmount : 0n)).toFixed(4)}$</div>
+              <div className="stat-value text-[1.6rem] text-primary">{Number(getUSDValue(fundraiser.goalAmount ? fundraiser.goalAmount : 0n)).toFixed(2)}$</div>
               <div className="stat-desc"></div>
             </div>
             <div className="stat">
-              <div className="stat-title">Number of contributions:</div>
-              <div data-tip={`Total tips amount in $`} className="stat-value text-secondary">{numberOfContributions}</div>
+              <div className="stat-title">Deadline</div>
+              <div className="stat-value text-[1.6rem] text-primary">{formatDate(Number(fundraiser.deadline))}</div>
+              <div className="stat-desc"></div>
+            </div>
+            <div className="stat">
+              <div className="stat-title">Contributions</div>
+              <div className="stat-value text-[1.6rem] text-primary">{numberOfContributions}</div>
               <div className="stat-desc">
               </div>
             </div>
