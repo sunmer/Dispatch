@@ -14,7 +14,7 @@ const renderAboutPage = () => `
   <div class="relative h-96">
     <img src="https://images.unsplash.com/photo-1635830625698-3b9bd74671ca?auto=format&q=20&w=2664&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1960&q=80" class="w-full h-full object-cover" />
   </div>
-  <div class="max-w-4xl mx-auto bg-white py-12 px-12 lg:px-24 -mt-32 relative z-10">
+  <div class="max-w-4xl mx-auto bg-white py-12 px-12 lg:px-24 -mt-32 relative z-10 rounded-t-lg">
     <h2 class="mt-4 uppercase tracking-widest text-xs text-gray-600">About Dispatch</h2>
     <h1 class="font-display text-2xl md:text-3xl text-gray-900 mt-4">The creator economy is just getting started</h1>
     <div class="prose prose-sm sm:prose lg:prose-lg mt-6 text-gray-800">
@@ -62,7 +62,7 @@ const handleRequest = (req: any, res: any) => {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;800&display=swap" rel="stylesheet">
       </head>
-      <body>
+      <body style="background-image: linear-gradient(to bottom, #1d1d1f, #3b1c31, #3b1c31)">
         <style>
           body {
             font-family: Nunito,sans-serif;
