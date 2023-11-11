@@ -110,7 +110,7 @@ function App() {
             <div className="font-display text-white uppercase text-sm tracking-widest mb-6">
               Helpful Links
             </div>
-            <a href="https://www.dispatch.bio/about" className="block mb-4">
+            <a href="/about" className="block mb-4">
               About
             </a>
             <a href="https://twitter.com/web3pushers" className="block mb-4">
@@ -124,7 +124,7 @@ function App() {
             <div className="font-display text-white uppercase text-sm tracking-widest mb-6">
               More
             </div>
-            <a href="https://www.dispatch.bio/about" className="block mb-4">
+            <a href="/about" className="block mb-4">
               Contact
             </a>
             <a href="https://github.com/sunmer/dispatch" className="block mb-4">

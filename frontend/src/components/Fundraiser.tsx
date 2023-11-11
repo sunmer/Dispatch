@@ -124,9 +124,6 @@ export function Fundraiser() {
             toBlock: 'latest'
           });
 
-          console.log("repliesData")
-          console.log(repliesData)
-
           return await Promise.all(repliesData.map(async r => {
             const comment = {
               ...r.args as unknown as CommentView,
