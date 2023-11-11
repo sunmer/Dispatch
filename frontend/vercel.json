@@ -1,6 +1,7 @@
 {
   "rewrites":  [
     { "source": "/about", "destination": "/api/about" },
+    { "source": "/.well-known/walletconnect.txt ", "destination": "/.well-known/walletconnect.txt" },
     { "source": "/(.*)", "destination": "/" }
   ],
   "headers": [
