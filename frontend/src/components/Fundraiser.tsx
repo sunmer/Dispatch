@@ -112,7 +112,7 @@ export function Fundraiser() {
           return contributionEvents.length;
         }
 
-        const getLatestReplies = async () => {
+        const getLatestComments = async () => {
           setIsLoadingComments(true);
           const repliesData = await publicClient.getLogs({
             address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
@@ -137,7 +137,7 @@ export function Fundraiser() {
 
             const response = await fetch('https://gateway.irys.xyz/' + comment.contentTextBody);
             const content = await response.text();
-            comment.contentTextBody = content;
+            comment.contentTextBody = JSON.parse(content).tb;
 
             return comment;
           }));
@@ -146,7 +146,7 @@ export function Fundraiser() {
         const [updatedFundraiserView, contributionsCount, replies] = await Promise.all([
           fetchMainContent(),
           getNumberOfContributions(),
-          getLatestReplies()
+          getLatestComments()
         ]);
 
         setIsLoadingComments(false);
