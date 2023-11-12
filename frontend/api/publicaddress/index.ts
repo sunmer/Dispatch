@@ -27,12 +27,21 @@ export default async function handler(request: any, response: any) {
         break;
       }
       case 'GET': {
-        const result = await client.sql`SELECT userinfo FROM public_addresses where address = ${request.query.publicAddress} LIMIT 1;`;
+        if(request.query.publicAddress) {
+          const result = await client.sql`SELECT userinfo FROM public_addresses where address = ${request.query.publicAddress} LIMIT 1;`;
 
-        const userInfos = result.rows.map(row => row.userinfo);
-        response.status(200).json(userInfos);
+          const userInfos = result.rows.map(row => row.userinfo);
+          response.status(200).json(userInfos);
 
-        break;
+          break;
+        } else {
+          const result = await client.sql`SELECT address, userinfo FROM public_addresses;`;
+
+          const rows = result.rows.map(row => row);
+          response.status(200).json(rows);
+
+          break;
+        }
       }
       default:
         return response.status(404)

@@ -183,7 +183,7 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   }
 
   const getSocialAvatarURL = async (publicAddress: string): Promise<OpenIDConnectUserInfo | null> => {
-    if (!publicAddress || !connectedAddress)
+    if (!publicAddress)
       return null;
 
     try {
