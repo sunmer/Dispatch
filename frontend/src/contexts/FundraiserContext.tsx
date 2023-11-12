@@ -1,7 +1,7 @@
 import { default as Dispatcher } from '../abi/contracts/Dispatcher.sol/Dispatcher.json';
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { base, polygon } from 'viem/chains'
-import { FundraiserView, ContributorView, PriceData, EventContributionCreated} from '../Interfaces';
+import { FundraiserView, ContributorView, PriceData, EventContributionCreated, PublicAddress} from '../Interfaces';
 import { Chain, PublicClient, formatEther, parseAbi } from 'viem';
 import { useAccount, useNetwork } from 'wagmi';
 import Settings from '../Settings';
@@ -10,6 +10,7 @@ import { OpenIDConnectUserInfo } from '@magic-ext/oauth';
 interface FundraiserContextType {
   allFundraisers: FundraiserView[];
   allContributors: ContributorView[];
+  allPublicAddresses: PublicAddress[];
   addFundraiser: (fundraiser: FundraiserView) => void;
   priceData: PriceData | null;
   getUSDValue: (amount: bigint) => string;
@@ -44,6 +45,7 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
 
   const [allFundraisers, setAllFundraisers] = useState<FundraiserView[]>([]);
   const [allContributors, setAllContributors] = useState<ContributorView[]>([]);
+  const [allPublicAddresses, setAllPublicAddresses] = useState<PublicAddress[]>([]);
   const [priceData, setPriceData] = useState<PriceData | null>(null);
 
   useEffect(() => {
@@ -71,6 +73,7 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
 
         fetchFundraisersPast24Hours();
         fetchAllContributors();
+        fetchAllPublicAddresses();
       }
 
       init();
@@ -173,6 +176,16 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
     setAllContributors(Object.values(groupedContributions));
   };
 
+  const fetchAllPublicAddresses = async () => {
+    const response = await fetch(Settings.API_URL + '/publicaddress', {
+      method: 'GET'
+    });
+
+    const publicAddresses = await response.json();
+
+    setAllPublicAddresses(Object.values(publicAddresses));
+  };
+
   const getUSDValue = (amount: bigint): string => {
     if (!priceData)
       throw new Error("Price data is not available yet");
@@ -209,7 +222,7 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   };
 
   return (
-    <FundraiserContext.Provider value={{ allFundraisers, allContributors, addFundraiser, priceData, getUSDValue, getSocialAvatarURL, getTotalContributionsBySender, currentChain }}>
+    <FundraiserContext.Provider value={{ allFundraisers, allContributors, allPublicAddresses, addFundraiser, priceData, getUSDValue, getSocialAvatarURL, getTotalContributionsBySender, currentChain }}>
       {children}
     </FundraiserContext.Provider>
   );

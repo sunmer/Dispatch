@@ -1,3 +1,4 @@
+import { OpenIDConnectUserInfo } from "@magic-ext/oauth";
 import { parseAbiItem } from "viem";
 
 // Fundraiser fetched from the contract's state
@@ -39,6 +40,12 @@ export interface FundraiserView extends FundraiserBlockchain {
   contentTextTitle?: string;
   contentTextBody?: string;
   contentFileIDs?: string[];
+  publicAddress?: PublicAddress;
+}
+
+export interface PublicAddress {
+  address: string;
+  userinfo: OpenIDConnectUserInfo;
 }
 
 export interface CommentView extends CommentBlockchain {
