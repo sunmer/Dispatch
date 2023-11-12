@@ -86,6 +86,8 @@ export function Fundraiser() {
         const contentTextID = fundraiserContent.t;
         fundraiserView.contentFileIDs = fundraiserContent.f;
 
+        console.log("fetched fundraiser view")
+
         const fetchMainContent = async () => {
           try {
             const response = await fetch('https://gateway.irys.xyz/' + contentTextID);
@@ -93,6 +95,8 @@ export function Fundraiser() {
             const fundraiserText = JSON.parse(data);
             fundraiserView.contentTextBody = fundraiserText.tb;
             fundraiserView.contentTextTitle = fundraiserText.tt;
+
+            console.log("fetched fundraiser text content")
             return fundraiserView;
           } catch (err) {
             console.error("Error fetching the main file:", err);
@@ -109,6 +113,8 @@ export function Fundraiser() {
               fundraiserId: BigInt(fundraiserId)
             },
           });
+
+          console.log("fetched fundraiser number of contributions")
           return contributionEvents.length;
         }
 
@@ -124,6 +130,7 @@ export function Fundraiser() {
             toBlock: 'latest'
           });
 
+          console.log("fetching fundraiser comments")
           return await Promise.all(repliesData.map(async r => {
             const comment = {
               ...r.args as unknown as CommentView,

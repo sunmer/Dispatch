@@ -66,7 +66,7 @@ function App() {
                   </div>
                   <div>
                     <h2 className="text-gray-800 text-3xl font-semibold">For Creators</h2>
-                    <p className="mt-2 text-gray-600 mb-5">Dispatch enables you to jumpstart your next project via web3 donations</p>
+                    <p className="mt-2 text-gray-600 mb-5">Jumpstart your next project via web3 donations. No technical knowledge or wallet is needed.</p>
                     <button className="btn btn-secondary" onClick={() => navigate('/signup')}>
                       Sign up as a creator
                     </button>

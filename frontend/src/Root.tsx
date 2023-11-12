@@ -65,7 +65,7 @@ export const rainbowMagicConnector = ({ chains }: any) => ({
   },
 });
 
-const projectId = "0a0b6f07a3a8536c4a4de2149c7c7369"
+const projectId = "f5701e68fe5874b3bd95e8f3fa7d5539"
 
 const connectors = connectorsForWallets([
   {
