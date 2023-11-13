@@ -177,6 +177,7 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   };
 
   const fetchAllPublicAddresses = async () => {
+    console.log("fetchAllPublicAddresses")
     const response = await fetch(Settings.API_URL + '/publicaddress', {
       method: 'GET'
     });

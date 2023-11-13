@@ -39,8 +39,8 @@ export function TopNav() {
   }, []);
 
   return (
-    <div className="navbar relative z-10 flex flex-row items-center">
-      <div className="flex-1 text-center mx-auto md:text-left md:mx-0">
+    <div className="navbar relative z-10 flex flex-col md:flex-row items-center">
+      <div className="flex-1 text-center mx-auto mb-4 md:mb-0 md:text-left md:mx-0">
         <h2 className="logo custom-font text-2xl"><a href="/" onClick={() => navigate('/')}>Dispatch</a></h2>
       </div>
       <div className="flex-none md:mt-0">
