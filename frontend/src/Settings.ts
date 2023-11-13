@@ -8,7 +8,7 @@ const SETTINGS_DEV = {
 
 const SETTINGS_PROD = {
   WEB_URL: "https://www.dispatch.bio/",
-  API_URL: "https://www.dispatch.bio//api",
+  API_URL: "https://www.dispatch.bio/api",
   API_KEY_MAGIC: "pk_live_3664465CE0411AAD",
   API_KEY_ALCHEMY: "SXHnBp_eYEQgf2PZvlJ5MegYtoCKpEBG",
   IRYS_URL: 'https://gateway.irys.xyz/'
