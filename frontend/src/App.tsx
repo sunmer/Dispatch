@@ -92,7 +92,7 @@ function App() {
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/oauth/callback" element={<SignupSuccess />} />
-          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/profile/:publicAddress" element={<Profile />} />
           <Route path="/" element={<AllFundraisers />} />
           <Route path="/discover" element={<AllFundraisers />} />
           <Route path="/create" element={<CreateFundraiser />} />

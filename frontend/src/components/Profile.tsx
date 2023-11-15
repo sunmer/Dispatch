@@ -4,6 +4,8 @@ import { EventContributionCreated } from '../Interfaces';
 import { CONTRACT_ADDRESS, userFundraiserContext } from '../contexts/FundraiserContext';
 import { GetCustomAvatar } from './CustomAvatar';
 import { getPublicClient } from '@wagmi/core'
+import Settings from '../Settings';
+import { OpenIDConnectUserInfo } from '@magic-ext/oauth';
 
 
 export function Profile() {
@@ -11,15 +13,30 @@ export function Profile() {
   const publicClient = getPublicClient();
 
   const { priceData, currentChain, getUSDValue } = userFundraiserContext();
-
-  const { username } = useParams<{ username: string }>();
-
+  
+  const { publicAddress } = useParams<{ publicAddress: string }>();
+  const [userInfo, setUserInfo] = useState<OpenIDConnectUserInfo>()
+  
   const [totalContributions, setTotalContributions] = useState<bigint>(0n);
   const [numberOfContributions, setNumberOfContributions] = useState<number>(0)
   const [isLoadingContributions, setIsLoadingContributions] = useState(false);
 
   useEffect(() => {
     const init = async () => {
+      if(publicAddress) {
+        const response = await fetch(
+          Settings.API_URL + '/publicaddress?' + new URLSearchParams({ publicAddress: publicAddress }),
+          { method: 'GET' }
+        );
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        const userInfo: OpenIDConnectUserInfo[] = await response.json();
+        setUserInfo(userInfo[0])
+      }
+      
       setIsLoadingContributions(true);
       const contributionCreatedEvents = await publicClient.getLogs({
         address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
@@ -27,7 +44,7 @@ export function Profile() {
         fromBlock: CONTRACT_ADDRESS[currentChain.id][1],
         toBlock: 'latest',
         args: {
-          sender: username as `0x${string}`
+          sender: publicAddress as `0x${string}`
         },
       });
 
@@ -42,7 +59,7 @@ export function Profile() {
     };
 
     init();
-  }, [username]);
+  }, [publicAddress]);
 
   if(isLoadingContributions) {
     return (
@@ -57,15 +74,15 @@ export function Profile() {
   } else {
     return (
       <>
-        {priceData && username && (
+        {userInfo && priceData && publicAddress && (
           <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-5">
-            <h1 className="text-5xl leading-tight max-w-3xl font-bold tracking-tight pb-2 mt-6 mx-auto bg-clip-text">{username?.substring(0, username.length - 20)}</h1>
+            <h1 className="text-5xl leading-tight max-w-3xl font-bold tracking-tight pb-2 mt-6 mx-auto bg-clip-text"><h2>{userInfo.name}</h2></h1>
             <div className="stats shadow">
   
               <div className="stat">
                 <div className="avatar flex justify-center items-center">
                   <div className="avatar-pic w-10 rounded-full">
-                    <GetCustomAvatar address={username} size={40} />
+                    <GetCustomAvatar address={publicAddress} size={40} />
                   </div>
                 </div>
               </div>
