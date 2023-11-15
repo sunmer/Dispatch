@@ -19,9 +19,7 @@ export const formatDate = (timestamp: number) => {
   const date = new Date(timestamp * 1000);
   const options: Intl.DateTimeFormatOptions = {
     month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+    day: 'numeric'
   };
 
   return date.toLocaleDateString(undefined, options);
