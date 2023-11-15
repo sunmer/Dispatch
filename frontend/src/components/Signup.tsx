@@ -54,25 +54,27 @@ export function Signup() {
           </h3>
           <div className="text-lg font-light leading-relaxed mt-4 mb-4">
             <p className="mb-2">
-              Join Dispatch with your existing Twitter account and instantly connect with your established audience.
+              Sign up with your existing Twitter account and start accepting web3 donations for your next project.
             </p>
             <ul>
               <li>
-                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>&nbsp;
-                Fundraise globally
+                Claiming funds is instant
               </li>
               <li>
-                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>&nbsp;
-                Kickstart a project of any kind</li>
+                Sign up is free and takes 30 seconds
+              </li>
               <li>
-                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>&nbsp;
-                Sign up is free and takes 30 seconds</li>
+                No technical experience or wallet needed
+              </li>
             </ul>
           </div>
           <button className="btn btn-secondary" onClick={signUp}>Sign up for Dispatch</button>

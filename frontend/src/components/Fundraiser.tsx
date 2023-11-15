@@ -266,12 +266,14 @@ export function Fundraiser() {
               {fundraiser.id === -1n && (
                 <><span className="loading loading-spinner h-6 w-6"></span>Saving...</>
               )}
-              {!showContributionForm && (
+
+              {(fundraiser.deadline > new Date().getTime() / 1000) && (showContributionForm === false) && (
                 <button className="btn btn-outline btn-sm btn-secondary"
                   onClick={() => setShowContributionForm(true)}>
                   Contribute
                 </button>
               )}
+
               {showContributionForm && (
                 <div className="join">
                   <input className="input input-bordered input-sm focus:outline-none join-item max-w-[120px]" placeholder="amount" value={`${fundraiserContribution} ${currentChain.nativeCurrency.symbol}`}
@@ -325,9 +327,12 @@ export function Fundraiser() {
               <div className="stat-desc"></div>
             </div>
             <div className="stat">
-              <div className="stat-title">Deadline</div>
+              <div className="stat-title">Deadline
               <div className="stat-value text-[1.6rem] text-primary">{formatDate(Number(fundraiser.deadline))}</div>
-              <div className="stat-desc"></div>
+              {(fundraiser.deadline < new Date().getTime() / 1000) && (
+                  <span className="stat-desc text-secondary">Finished</span>
+                )}
+              </div>
             </div>
             <div className="stat">
               <div className="stat-title">Contributions</div>

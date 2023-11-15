@@ -67,7 +67,7 @@ export function AllFundraisers() {
                   <div className="card-actions flex justify-end items-center mt-4 p-4 bg-base-100 rounded-b-lg">
                     {fundraiser.id !== -1n && (
                       <>
-                        <div className="badge">Raised: {Number(getUSDValue(fundraiser.amount ? fundraiser.amount : 0n)).toFixed(4)}$</div>
+                        <div className="badge">Raised: {Number(getUSDValue(fundraiser.amount ? fundraiser.amount : 0n)).toFixed(2)}$</div>
                         <div className="badge">Goal: {Number(getUSDValue(fundraiser.goalAmount ? fundraiser.goalAmount : 0n)).toFixed(2)}$</div>
                       </>
                     )}
