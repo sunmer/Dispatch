@@ -67,6 +67,7 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   useEffect(() => {
     if (currentChain) {
       const init = async () => {
+        console.log("prices")
         const priceDataResponse = await fetch(`https://api.coinbase.com/v2/prices/${currentChain.nativeCurrency.symbol}-usd/buy`);
         const priceData = await priceDataResponse.json();
         setPriceData(priceData.data);

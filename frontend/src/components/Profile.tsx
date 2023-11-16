@@ -77,7 +77,7 @@ export function Profile() {
 
           <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-5">
 
-            <h1 className="text-5xl leading-tight max-w-3xl font-bold tracking-tight pb-2 mt-6 mx-auto bg-clip-text"><h2>{userInfo.name}</h2></h1>
+            <h1 className="text-5xl leading-tight max-w-3xl font-bold tracking-tight pb-2 mt-6 mx-auto bg-clip-text">{userInfo.name}</h1>
             <div className="stats shadow">
 
               <div className="stat">
