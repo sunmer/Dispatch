@@ -157,8 +157,8 @@ export const GetCustomAvatar: React.FC<AvatarComponentProps> = ({ address, ensIm
   useEffect(() => {
     const init = async () => {
       if (!socialAvatarURL) {
-        const userInfo = await getSocialAvatarURL(address);
-        if (userInfo?.profile) {
+        const userInfo = getSocialAvatarURL(address)?.userinfo;
+        if (userInfo) {
           setSocialAvatarURL(userInfo.profile);
         } else {
           // If userInfo is null or doesn't have a profile, reset socialAvatarURL to ensure fallback

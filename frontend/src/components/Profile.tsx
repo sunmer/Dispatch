@@ -38,7 +38,6 @@ export function Profile() {
         setUserInfo(userInfo[0])
       }
 
-      setIsLoading(true);
       const contributionCreatedEvents = await publicClient.getLogs({
         address: CONTRACT_ADDRESS[currentChain.id][0] as `0x${string}`,
         event: EventContributionCreated,
@@ -70,10 +69,10 @@ export function Profile() {
         </div>
       </div>
     )
-  } else {
+  } else if(priceData && publicAddress) {
     return (
       <>
-        {userInfo && priceData && publicAddress && (
+        {userInfo && (
 
           <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-5">
 
@@ -111,7 +110,7 @@ export function Profile() {
             </div>
           </div>
         )}
-        {!userInfo && priceData && publicAddress && (
+        {!userInfo && (
           <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-5">
             <h1 className="text-5xl leading-tight max-w-3xl font-bold tracking-tight pb-2 mt-6 mx-auto bg-clip-text"><h2>{publicAddress}</h2></h1>
             <div className="stats shadow">

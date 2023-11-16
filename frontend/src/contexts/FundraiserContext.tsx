@@ -5,7 +5,7 @@ import { FundraiserView, ContributorView, PriceData, EventContributionCreated, P
 import { Chain, PublicClient, formatEther, parseAbi } from 'viem';
 import { useAccount, useNetwork } from 'wagmi';
 import Settings from '../Settings';
-import { OpenIDConnectUserInfo } from '@magic-ext/oauth';
+
 
 interface FundraiserContextType {
   allFundraisers: FundraiserView[];
@@ -14,7 +14,7 @@ interface FundraiserContextType {
   addFundraiser: (fundraiser: FundraiserView) => void;
   priceData: PriceData | null;
   getUSDValue: (amount: bigint) => string;
-  getSocialAvatarURL: (publicAddress: string) => Promise<OpenIDConnectUserInfo | null>;
+  getSocialAvatarURL: (publicAddress: string) => PublicAddress | undefined;
   getTotalContributionsBySender: (sender: string) => bigint;
   currentChain: Chain;
 }
@@ -178,13 +178,11 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
   };
 
   const fetchAllPublicAddresses = async () => {
-    console.log("fetchAllPublicAddresses")
     const response = await fetch(Settings.API_URL + '/publicaddress', {
       method: 'GET'
     });
 
     const publicAddresses = await response.json();
-
     setAllPublicAddresses(Object.values(publicAddresses));
   };
 
@@ -195,27 +193,8 @@ export const FundraiserProvider: React.FC<FundraiserProviderProps> = ({ children
     return (parseFloat(priceData.amount) * parseFloat(formatEther(amount, "wei"))).toString();
   }
 
-  const getSocialAvatarURL = async (publicAddress: string): Promise<OpenIDConnectUserInfo | null> => {
-    if (!publicAddress)
-      return null;
-
-    try {
-      const response = await fetch(
-        Settings.API_URL + '/publicaddress?' + new URLSearchParams({ publicAddress: publicAddress }),
-        { method: 'GET' }
-      );
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data: OpenIDConnectUserInfo[] = await response.json();
-
-      return data[0] || null;
-    } catch (error) {
-      console.error('Error:', error);
-      return null;
-    }
+  const getSocialAvatarURL = (publicAddress: string) => {
+    return allPublicAddresses.find(_publicAddress => _publicAddress.address === publicAddress);
   }
 
   const getTotalContributionsBySender = (sender: string) => {
