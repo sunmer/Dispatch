@@ -27,6 +27,10 @@ export function SignupSuccess() {
     const init = async () => {
       const redirectResult: OAuthRedirectResult = await magic.oauth.getRedirectResult();
       const userData = await magic.user.getInfo();
+      console.log("JSON.stringify(userData)")
+      console.log(JSON.stringify(userData))
+      console.log("JSON.stringify(redirectResult)")
+      console.log(JSON.stringify(redirectResult))
 
       setAuthData({
         idToken: redirectResult.magic.idToken,
