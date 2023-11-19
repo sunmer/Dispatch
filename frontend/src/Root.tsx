@@ -8,6 +8,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import {
   connectorsForWallets,
+  DisclaimerComponent,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import {
@@ -89,6 +90,14 @@ const wagmiConfig = createConfig({
   publicClient
 });
 
+const Disclaimer: DisclaimerComponent = ({ Link }) => (
+  <div style={{fontSize: ".9rem", fontWeight: "bold", color: "#999"}}>
+    If you are a content creator, sign up via Twitter to generate a self-custodial wallet you have full control over.
+    <br /><br />
+    Use the custom wallets if you are looking to support a new project.<br />
+    <Link href="https://dispatch.bio/wallets">More info</Link>
+  </div>
+);
 
 function Root() {
   return (
@@ -96,7 +105,15 @@ function Root() {
       <AuthProvider>
         <WagmiConfig config={wagmiConfig}>
           <FundraiserProvider publicClient={wagmiConfig.getPublicClient()}>
-            <RainbowKitProvider chains={chains} avatar={GetCustomAvatar}>
+            <RainbowKitProvider
+              modalSize="compact"
+              chains={chains}
+              avatar={GetCustomAvatar}
+              appInfo={{
+                appName: 'Dispatch',
+                disclaimer: Disclaimer,
+                learnMoreUrl: 'https://learnaboutcryptowallets.example',
+              }}>
               <App />
             </RainbowKitProvider>
           </FundraiserProvider>
