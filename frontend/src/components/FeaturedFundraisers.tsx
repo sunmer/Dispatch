@@ -34,7 +34,7 @@ export function FeaturedFundraisers() {
 				{allFundraisers && (
 					<div className="featured my-[80px]">
 						<div className="flex flex-wrap bg-black">
-							<a href="/categories/sandy-beaches/" className="bg-black relative w-full md:w-auto md:flex-1 flex items-center justify-center h-72 font-heading text-white uppercase tracking-widest hover:opacity-75">
+							<a className="bg-black relative w-full md:w-auto md:flex-1 flex items-center justify-center h-72 font-heading text-white uppercase tracking-widest hover:opacity-75">
 								<div className="relative z-10">
 									<span className="text-gray-400">FEATURED</span>
 								</div>
