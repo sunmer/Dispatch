@@ -156,7 +156,6 @@ export const GetCustomAvatar: React.FC<AvatarComponentProps> = ({ address, ensIm
 
   useEffect(() => {
     const init = async () => {
-      console.log("init getcustomavatar")
       if (!socialAvatarURL) {
         const userInfo = getSocialAvatarURL(address)?.userinfo;
         if (userInfo) {

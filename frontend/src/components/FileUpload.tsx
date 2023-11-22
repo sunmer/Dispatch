@@ -29,7 +29,7 @@ export function FileUpload({ onFilesAccepted, maxFiles }: { onFilesAccepted: (fi
     accept: {
       'image/*': ['.jpeg', '.png', '.gif']
     },
-    maxSize: 3000000
+    maxSize: 1000000
   });
 
   return (

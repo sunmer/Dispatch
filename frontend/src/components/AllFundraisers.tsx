@@ -61,7 +61,7 @@ export function AllFundraisers() {
                     <h2 className="card-title">{fundraiser.contentTextTitle}</h2>
                     <p className="text-left mb-2 whitespace-pre-line line-clamp-3 overflow-hidden">{fundraiser.contentTextBody}</p>
                     {fundraiser.contentFileIDs && fundraiser.contentFileIDs.map((fileContent, index) => (
-                      <img className="w-2/5" key={index} src={Settings.IRYS_URL + fileContent} alt="" />
+                      index === 0 && <img className="w-2/5" key={index} src={Settings.IRYS_URL + fileContent} alt="" />
                     ))}
                   </div>
                   <div className="card-actions flex justify-end items-center mt-4 p-4 bg-base-100 rounded-b-lg">
