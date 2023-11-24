@@ -26,6 +26,21 @@ export const formatDate = (timestamp: number) => {
   return date.toLocaleDateString(undefined, options);
 }
 
+export const scrollTo = (elementId: string) => {
+  const element = document.getElementById(elementId);
+    
+    // Check if the element exists
+    if (element) {
+        // Get the position of the element relative to the top of the document
+        const topPosition = element.getBoundingClientRect().top + window.pageYOffset;
+
+        // Smoothly scroll to the element
+        window.scrollTo({
+            top: topPosition,
+            behavior: 'smooth'
+        });
+    }
+}
 
 function App() {
 
@@ -79,7 +94,7 @@ function App() {
                   <div>
                     <h2 className="text-gray-800 text-3xl font-semibold">For Fans</h2>
                     <p className="mt-2 text-gray-600 mb-5">Support & engage with your favorite creators. Earn badges and get in early on promising projects.</p>
-                    <button className="btn btn-secondary" onClick={() => navigate('/discover')}>
+                    <button className="btn btn-secondary" onClick={() => scrollTo('allFundraisers')}>
                       Discover fundraisers
                     </button>
                   </div>

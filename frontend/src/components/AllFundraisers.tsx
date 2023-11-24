@@ -47,7 +47,7 @@ export function AllFundraisers() {
   } else {
     return (
       <>
-        <div className="flex flex-col space-y-4 justify-center items-center h-auto mt-4">
+        <div id="allFundraisers" className="flex flex-col space-y-4 justify-center items-center h-auto mt-4">
           {allFundraisers && (
             <>
               <div className="tabs tabs-boxed mt-4">
