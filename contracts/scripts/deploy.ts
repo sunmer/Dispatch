@@ -1,6 +1,6 @@
 import { ethers, upgrades } from "hardhat";
 
-const PROXY_CONTRACT_ADDRESS = "0x226eCC705CEeBF836E0a11e115A5C2693E906b53";
+const PROXY_CONTRACT_ADDRESS = "0x9A65362A9Aa3423739F534EE03C5a91dbFCb1bf5";
 
 async function deployInitial() {
   const Dispatcher = await ethers.getContractFactory("Dispatcher");
@@ -23,14 +23,8 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   const adminAddress = deployer.address;
 
-  const dispatcherAddress = await deployInitial();
-}
-
-async function upgrade() {
-  const [deployer] = await ethers.getSigners();
-  const adminAddress = deployer.address;
-
-  const dispatcherAddress = await deployUpgrade("DispatcherV2");
+  //const dispatcherAddress = await deployInitial();
+  await deployUpgrade("Dispatcher01");
 }
 
 main().catch((error) => {
