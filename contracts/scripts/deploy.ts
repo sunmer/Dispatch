@@ -15,7 +15,8 @@ async function deployInitial() {
 
 async function deployUpgrade(contract: string) {
   const DispatcherUpgraded = await ethers.getContractFactory(contract);
-  const dispatcherUpgraded = await upgrades.upgradeProxy(PROXY_CONTRACT_ADDRESS, DispatcherUpgraded);
+  const dispatcherUpgraded = await upgrades.forceImport(PROXY_CONTRACT_ADDRESS, DispatcherUpgraded)
+  //const dispatcherUpgraded = await upgrades.upgradeProxy(PROXY_CONTRACT_ADDRESS, DispatcherUpgraded);
   console.log(`Dispatcher proxy ${contract} upgraded at: ` + dispatcherUpgraded.target);
 }
 
