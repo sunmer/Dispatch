@@ -41,7 +41,7 @@ export function FeaturedFundraisers() {
 							<a onClick={() => navigate(`/fundraiser/${featuredFundraiser.id}`)}
 								className="bg-black hover cursor-pointer relative w-full md:w-8/12 flex items-center justify-center h-72 font-heading text-white uppercase tracking-widest hover:brightness-200">
 								<div className="relative z-10">
-									<span className="text-gray-400">{featuredFundraiser.contentTextTitle}</span>
+									<span className="text-gray-100">{featuredFundraiser.contentTextTitle}</span>
 								</div>
 								{featuredFundraiser.contentFileIDs && featuredFundraiser.contentFileIDs.map((fileContent, index) => (
 									<img className="absolute inset-0 w-full h-full object-cover opacity-50" key={index} src={Settings.IRYS_URL + fileContent} alt="" />
