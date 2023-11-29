@@ -61,12 +61,6 @@ export function Signup() {
                 <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>&nbsp;
-                Claiming funds is instant
-              </li>
-              <li>
-                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>&nbsp;
                 Sign up is free and takes 30 seconds
               </li>
               <li>
@@ -74,6 +68,12 @@ export function Signup() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>&nbsp;
                 No technical experience or wallet needed
+              </li>
+              <li>
+                <svg className="w-6 h-6 inline align-text-top" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>&nbsp;
+                Keep 100% of the funds after fundraising
               </li>
             </ul>
           </div>
