@@ -27,7 +27,7 @@ contract Dispatcher is Initializable, OwnableUpgradeable, ReentrancyGuardUpgrade
         uint256 deadline;
     }
 
-    uint256 private constant FEE_PERCENT = 8;
+    uint256 public constant FEE_PERCENT = 0;
     uint256 public accumulatedFees;
 
     uint256 public nextCommentId;
